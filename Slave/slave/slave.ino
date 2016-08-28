@@ -10,7 +10,7 @@
 // Variables
 int rojo = 13;
 int amarillo = 12;
-int motor = 11;
+int motor = 10;
 
 void setup() {
   // Se definen los I/O del sistema incluyendo el puerto serial
@@ -18,13 +18,13 @@ void setup() {
   pinMode(amarillo, OUTPUT);
   pinMode(motor, OUTPUT);
   Serial.begin(9600);
+  digitalWrite(rojo, LOW);
+  digitalWrite(amarillo, LOW);
+  digitalWrite(amarillo, LOW);
 }
 
 // Este loop contiene las instrucciones que se ejecutaran segun la instruccion leida a traves del puerto serial
 void loop() {
-  // Se apagan los leds y motores en caso de no estarse utilizando
-  digitalWrite(rojo, LOW);
-  digitalWrite(amarillo, LOW);
   while (Serial.available()) {
     char mensaje = Serial.read();
     // Se comprueba el dato y se selecciona el estado segun corresponda
@@ -35,7 +35,7 @@ void loop() {
           digitalWrite(motor, HIGH);
           delay(80);
           digitalWrite(rojo, LOW);
-          digitalWrite(rojo, LOW);
+          digitalWrite(motor, LOW);
           delay(80);
         }
         break;

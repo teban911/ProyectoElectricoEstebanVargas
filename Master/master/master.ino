@@ -7,16 +7,19 @@
  *            Dr. Jaime Cascante Vindas
  */
 
-#include <SoftwareSerial.h>
- // Variables
- SoftwareSerial Serie2(10,11);
+//#include <SoftwareSerial.h>
+// Se definen los nuevos puertos seriales en el orden Rx, Tx
+//SoftwareSerial MySerial(4,5); //Rx,Tx
+
 void setup() {
-  Serie2.begin(9600);
+  //Se inicializa el puerto serial
+  Serial.begin(9600);
+  //MySerial.begin(9600);
 }
 
 void loop() {
-  Serie2.write("a");
-  delay(3000);
-  Serie2.write("b");
-  delay(3000);
+  Serial.write('a');
+  delay(5000);
+  Serial.write('b');
+  delay(5000);
 }

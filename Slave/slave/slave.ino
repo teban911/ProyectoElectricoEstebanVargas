@@ -29,18 +29,20 @@ void setup() {
 
 // Este loop contiene las instrucciones que se ejecutaran segun la instruccion leida a traves del puerto serial
 void loop() {
+  noTone(11);
   while (Serial.available()) {
     int mensaje = Serial.read();
     // Se comprueba el dato y se selecciona el estado segun corresponda
     switch (mensaje) {
       case 'a':{ 
-        for (int i = 0; i<=20; i++) {
+        for (int i = 0; i<=10; i++) {
+          tone(11, 150, 500);
           digitalWrite(rojo, HIGH);
           //digitalWrite(motor, HIGH);
-          delay(80);
+          delay(60);
           digitalWrite(rojo, LOW);
           //digitalWrite(motor, LOW);
-          delay(80);
+          delay(60);
         }
         break;
       }

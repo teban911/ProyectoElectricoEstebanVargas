@@ -7,56 +7,69 @@
               Dr. Jaime Cascante Vindas
 */
 //#include <SoftwareSerial.h>
-// Se define el nuevo puerto serial para bluetooth
-//SoftwareSerial MySerial(4,5); //Rx, Tx
+#include "FastLED.h"
+#define NUM_LEDS 3
+#define DATA_PIN 13
 
 // Variables
-int rojo = 13;
-int amarillo = 12;
-//int motor = 10;
+CRGB leds[NUM_LEDS];
+
 
 void setup() {
   // Se definen los I/O del sistema incluyendo el puerto serial
-  pinMode(rojo, OUTPUT);
-  pinMode(amarillo, OUTPUT);
-  //pinMode(motor, OUTPUT);
+  //FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   Serial.begin(9600);
-  //MySerial.begin(9600);
-  digitalWrite(rojo, LOW);
-  digitalWrite(amarillo, LOW);
-  digitalWrite(amarillo, LOW);
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 }
+
 
 // Este loop contiene las instrucciones que se ejecutaran segun la instruccion leida a traves del puerto serial
 void loop() {
-  noTone(11);
-  while (Serial.available()) {
-    int mensaje = Serial.read();
-    // Se comprueba el dato y se selecciona el estado segun corresponda
-    switch (mensaje) {
-      case 'a':{ 
-        for (int i = 0; i<=10; i++) {
-          tone(11, 150, 500);
-          digitalWrite(rojo, HIGH);
-          //digitalWrite(motor, HIGH);
-          delay(60);
-          digitalWrite(rojo, LOW);
-          //digitalWrite(motor, LOW);
-          delay(60);
-        }
-        break;
-      }
-      case 'b':{
-        for (int i=0; i<=20; i++){
-          digitalWrite(amarillo, HIGH);
-          //digitalWrite(motor, HIGH);
-          delay(60);
-          digitalWrite(amarillo, LOW);
-          //digitalWrite(motor, LOW);
-          delay(60);
-        }
-        break;
-      }
+  if (Serial.available()) {
+    char dato = Serial.read(); // Se lee cada cada numero del mensaje
+    switch(dato){
+    case 'w':{ // Whatsapp
+      alarma(20, 181, 17, 3, 300);
     }
+    break;
+    case 'f':{ // Facebook
+      alarma(19, 67, 179, 2, 300);
+    }
+    break;
+    case 'g':{ // Gmail
+      alarma(200, 0, 0, 2, 300);
+    }
+    break;
+    case 'm':{ // Movimiento
+      alarma(240, 0, 0, 6, 800);
+    }
+    break;
+    case 'b':{ // bebe
+      alarma(243, 64, 189, 4, 500);
+    }
+    break;
+    case 'i':{ // incendio || gases
+      alarma(225, 91, 14, 8, 800);
+    }
+    break;
+    }
+    delay(500);
+  }
+}
+
+
+int alarma(int color1, int color2, int color3, int ciclos, int td) {
+  for (int i = 0; i < ciclos; i++) {
+    leds[0] = CRGB(color1, color2, color3);
+    leds[1] = CRGB(color1, color2, color3);
+    leds[2] = CRGB(color1, color2, color3);
+    FastLED.show();
+    delay(td);
+    leds[0] = CRGB(0, 0, 0);
+    leds[1] = CRGB(0, 0, 0);
+    leds[2] = CRGB(0, 0, 0);
+    FastLED.show();
+    delay(td);
+    //clean();
   }
 }

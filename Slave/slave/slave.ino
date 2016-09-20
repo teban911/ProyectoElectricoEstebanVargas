@@ -52,6 +52,10 @@ void loop() {
       alarma(225, 91, 14, 8, 800);
     }
     break;
+    case 't':{ // timbre
+      alarma(238, 255, 7, 4, 300);
+    }
+    break;
     }
     delay(500);
   }

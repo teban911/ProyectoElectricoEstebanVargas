@@ -13,6 +13,8 @@
 
 // Variables
 CRGB leds[NUM_LEDS];
+String Datos[6];
+String Msg;
 
 
 void setup() {
@@ -24,56 +26,43 @@ void setup() {
 
 
 // Este loop contiene las instrucciones que se ejecutaran segun la instruccion leida a traves del puerto serial
-void loop() {
-  if (Serial.available()) {
-    char dato = Serial.read(); // Se lee cada cada numero del mensaje
-    switch(dato){
-    case 'w':{ // Whatsapp
-      alarma(20, 181, 17, 3, 300);
+void loop(){
+  if (Serial.available()){
+    //Msg = Serial.read(); //Se lee el mensaje que ha llegado
+    int j = 0;
+    for(int i=0; i<=5; i++){
+      Datos[j] = Serial.readStringUntil(',');
+      j++;
     }
-    break;
-    case 'f':{ // Facebook
-      alarma(19, 67, 179, 2, 300);
-    }
-    break;
-    case 'g':{ // Gmail
-      alarma(200, 0, 0, 2, 300);
-    }
-    break;
-    case 'm':{ // Movimiento
-      alarma(240, 0, 0, 6, 800);
-    }
-    break;
-    case 'b':{ // bebe
-      alarma(243, 64, 189, 4, 500);
-    }
-    break;
-    case 'i':{ // incendio || gases
-      alarma(225, 91, 14, 8, 800);
-    }
-    break;
-    case 't':{ // timbre
-      alarma(238, 255, 7, 4, 300);
-    }
-    break;
-    }
-    delay(500);
+    //j++;
+    //Datos[j] = Serial.readStringUntil('\0');
+
+    //Se procede a convertir los datos a numeros enteros
+    int Red = Datos[0].toInt();
+    int Green = Datos[1].toInt();
+    int Blue = Datos[2].toInt();
+    int Ciclos = Datos[3].toInt();
+    int th = Datos[4].toInt();
+    int tl = Datos[5].toInt();
+
+    //Se llama la funcion alarma con los datos leídos
+    alarma(Red,Green,Blue,Ciclos,th,tl);
+    
   }
 }
 
-
-int alarma(int color1, int color2, int color3, int ciclos, int td) {
+int alarma(int color1, int color2, int color3, int ciclos, int th, int tl) {
   for (int i = 0; i < ciclos; i++) {
     leds[0] = CRGB(color1, color2, color3);
     leds[1] = CRGB(color1, color2, color3);
     leds[2] = CRGB(color1, color2, color3);
     FastLED.show();
-    delay(td);
+    delay(th);
     leds[0] = CRGB(0, 0, 0);
     leds[1] = CRGB(0, 0, 0);
     leds[2] = CRGB(0, 0, 0);
     FastLED.show();
-    delay(td);
+    delay(tl);
     //clean();
   }
 }

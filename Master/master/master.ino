@@ -17,7 +17,7 @@ int pirState = LOW;
 int buttonState = 0;
 int lastButtonState = 0;
 unsigned long preMillis = 0;
-long rebote = 400;
+long rebote = 500;
 
 void setup() {
   //Se inicializa el puerto serial
@@ -57,7 +57,6 @@ void loop() {
       }
       break;
     }
-    delay(100);
   }
 
   //Timbre
@@ -65,13 +64,12 @@ void loop() {
   if(buttonState != lastButtonState){
     unsigned long currentMillis = millis();
     //Se realiza la resta y hasta que no se cumpla la condicion no ejecuta la instruccion
-    if((currentMillis - preMillis) >= rebote){
+    if((currentMillis - preMillis) > rebote){
       preMillis = currentMillis;
       Serial.write("238, 255, 7, 4, 1000, 500,");
+    }  
       lastButtonState = buttonState;
-    }
   }
-  delay(500);
 }
 
 

@@ -28,10 +28,12 @@ void setup() {
 }
 
 void loop() {
+  //Los datos se transmiten en el siguiente orden:
+  // (R,G,B,tTotal,thL,tlL,thM,tlM)
   if (digitalRead(pir) == HIGH) { //Se lee el valor del PIR
     if (pirState == LOW) {
       pirState = HIGH;
-      Serial.write("240, 0, 0, 6, 800,500,");
+      Serial.write("240,0,0,7000,500,400,1800,400,");
       delay(3000);
     }
   }
@@ -45,15 +47,15 @@ void loop() {
     //Serial.write(MySerial.read());
     switch(dato){
       case 'w':{ // Whatsapp
-        Serial.write("20,181,17,3,300,300,");
+        Serial.write("20,181,17,1300,300,300,1300,0,");
       }
       break;
       case 'f':{
-        Serial.write("19,67,179,2,300,300,");
+        Serial.write("19,67,179,2000,500,500,500,500,");
       }
       break;
       case 'g':{
-        Serial.write("200, 0, 0, 2, 300, 300,");
+        Serial.write("200,0,0,1000,1000,1,1000,1,");
       }
       break;
     }
@@ -66,7 +68,7 @@ void loop() {
     //Se realiza la resta y hasta que no se cumpla la condicion no ejecuta la instruccion
     if((currentMillis - preMillis) > rebote){
       preMillis = currentMillis;
-      Serial.write("238, 255, 7, 4, 1000, 500,");
+      Serial.write("238,255,7,3000,800,200,3000,200,");
     }  
       lastButtonState = buttonState;
   }

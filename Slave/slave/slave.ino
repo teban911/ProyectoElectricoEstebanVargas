@@ -8,7 +8,7 @@
 */
 //#include <SoftwareSerial.h>
 #include "FastLED.h"
-#define NUM_LEDS 3
+#define NUM_LEDS 1
 #define DATA_PIN 3
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +25,7 @@ const int parlante = 13;
 int despertar = 0;
 int boton = 10;
 int sensitividad = 0;
+int buttonState = 0;
 
 
 void setup() {
@@ -69,7 +70,7 @@ void loop(){
     if(Desp == 1){
       despertar = 1;
       sensitividad = 20;
-      //despertador();
+      despertador(Red, Green, Blue, thL,tlL,thM,tlM,Sound);
     }
   }
 }
@@ -89,8 +90,8 @@ int alarma(int color1, int color2, int color3, int tTotal, int thL, int tlL, int
     ////////////////////////////////////////////////////////
     if((millis()- tRefL) < thL ){ 
       leds[0] = CRGB(color1, color2, color3);
-      leds[1] = CRGB(color1, color2, color3);
-      leds[2] = CRGB(color1, color2, color3);
+      //leds[1] = CRGB(color1, color2, color3);
+      //leds[2] = CRGB(color1, color2, color3);
       FastLED.show();
     }
     ////////////////////////////////////////////////////////
@@ -98,8 +99,8 @@ int alarma(int color1, int color2, int color3, int tTotal, int thL, int tlL, int
     ////////////////////////////////////////////////////////
     if(((millis()- tRefL) > thL) && ((millis()-tRefL) < (thL + tlL))){
       leds[0] = CRGB(0, 0, 0);
-      leds[1] = CRGB(0, 0, 0);
-      leds[2] = CRGB(0, 0, 0);
+      //leds[1] = CRGB(0, 0, 0);
+      //leds[2] = CRGB(0, 0, 0);
       FastLED.show();
     }
     /////////////////////////////////////////////////////////
@@ -133,8 +134,8 @@ int alarma(int color1, int color2, int color3, int tTotal, int thL, int tlL, int
   //Cuando sale del while apaga todas las salidas
   ///////////////////////////////////////////////
   leds[0] = CRGB(0, 0, 0);
-  leds[1] = CRGB(0, 0, 0);
-  leds[2] = CRGB(0, 0, 0);
+  //leds[1] = CRGB(0, 0, 0);
+  //leds[2] = CRGB(0, 0, 0);
   FastLED.show();
   noTone(parlante);
   analogWrite(motor,0);
@@ -145,7 +146,7 @@ int alarma(int color1, int color2, int color3, int tTotal, int thL, int tlL, int
  /////////////////////////////////////////////////////////////////////////
  /// Funcion de alarma despertadora
  /////////////////////////////////////////////////////////////////////////
-int alarma(int color1, int color2, int color3, int thL, int tlL, int thM, int tlM, int Sound) {
+int despertador(int color1, int color2, int color3, int thL, int tlL, int thM, int tlM, int Sound) {
   tRef = millis();
   tRefL = millis();
   tRefM = millis();
@@ -153,13 +154,12 @@ int alarma(int color1, int color2, int color3, int thL, int tlL, int thM, int tl
     ////////////////////////////////////////////////////////
     // Enciende los LED durante el tiempo en alto de los LED
     ////////////////////////////////////////////////////////
-    if(boton == HIGH){
+    buttonState = digitalRead(boton);
+    if(buttonState == HIGH){
       despertar = 0;
     }
     if((millis()- tRefL) < thL ){ 
       leds[0] = CRGB(color1, color2, color3);
-      leds[1] = CRGB(color1, color2, color3);
-      leds[2] = CRGB(color1, color2, color3);
       FastLED.show();
     }
     ////////////////////////////////////////////////////////
@@ -167,8 +167,6 @@ int alarma(int color1, int color2, int color3, int thL, int tlL, int thM, int tl
     ////////////////////////////////////////////////////////
     if(((millis()- tRefL) > thL) && ((millis()-tRefL) < (thL + tlL))){
       leds[0] = CRGB(0, 0, 0);
-      leds[1] = CRGB(0, 0, 0);
-      leds[2] = CRGB(0, 0, 0);
       FastLED.show();
     }
     /////////////////////////////////////////////////////////
@@ -205,8 +203,8 @@ int alarma(int color1, int color2, int color3, int thL, int tlL, int thM, int tl
   //Cuando sale del while apaga todas las salidas
   ///////////////////////////////////////////////
   leds[0] = CRGB(0, 0, 0);
-  leds[1] = CRGB(0, 0, 0);
-  leds[2] = CRGB(0, 0, 0);
+  //leds[1] = CRGB(0, 0, 0);
+  //leds[2] = CRGB(0, 0, 0);
   FastLED.show();
   noTone(parlante);
   analogWrite(motor,0);

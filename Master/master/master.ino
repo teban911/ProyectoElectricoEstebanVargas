@@ -45,7 +45,7 @@ void loop() {
   //                    GAS sensor
   /////////////////////////////////////////////////////////////////////////////////////////////
   gasValue = analogRead(gas);
-  if (gasValue > 300) { //Se lee el dato del sensor de gas
+  if (gasValue > 400) { //Se lee el dato del sensor de gas
     if (gasState == LOW) {
       gasState = HIGH;
       Serial.write("230,11,246,6000,500,400,1000,300,0,1,");
